@@ -18,12 +18,12 @@ class PlayerPanelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      width: 325, // 250 * 1.3 = 325
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16), // 16*1.3, 12*1.3
       decoration: BoxDecoration(
         color: const Color(0xFF161721),
         border: Border.all(color: const Color(0xFF7b6326), width: 1.5),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
@@ -51,18 +51,18 @@ class PlayerPanelWidget extends StatelessWidget {
                       'PLAYER',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: 29, // 22 * 1.3
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: onAddPlayerTap,
                     child: const Icon(
                       Icons.add_circle_outline,
                       color: Color(0xFFc09b43),
-                      size: 20,
+                      size: 26, // 20 * 1.3
                     ),
                   ),
                 ],
@@ -71,19 +71,19 @@ class PlayerPanelWidget extends StatelessWidget {
                 'Time Bank',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 21, // 16 * 1.3
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           ...players.asMap().entries.map((entry) {
             int idx = entry.key;
             Map<String, dynamic> p = entry.value;
 
             return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -93,17 +93,21 @@ class PlayerPanelWidget extends StatelessWidget {
                         p['name'],
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 23, // 18 * 1.3
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
+                      // Vùng bấm lớn hơn cho icon Penalty
                       GestureDetector(
                         onTap: () => onPenaltyTap(idx),
-                        child: SvgPicture.asset(
-                          'assets/Rectangle 1888.svg',
-                          width: 20,
-                          height: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            'assets/Rectangle 1888.svg',
+                            width: 26, // 20 * 1.3
+                            height: 26,
+                          ),
                         ),
                       ),
                       if (p['penalty'] != null && p['penalty'] > 0) ...[
@@ -112,7 +116,7 @@ class PlayerPanelWidget extends StatelessWidget {
                           '${p['penalty']}',
                           style: const TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 16,
+                            fontSize: 21, // 16 * 1.3
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -125,23 +129,27 @@ class PlayerPanelWidget extends StatelessWidget {
                         p['timeBank'].toString(),
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 23, // 18 * 1.3
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
+                      // Vùng bấm lớn hơn cho icon Time Bank
                       GestureDetector(
                         onTap: p['timeBank'] > 0 ? () => onUseTimeBankTap(idx) : null,
-                        child: SvgPicture.asset(
-                          'assets/Vector.svg',
-                          width: 20,
-                          height: 20,
-                          colorFilter: p['timeBank'] > 0
-                              ? null
-                              : const ColorFilter.mode(
-                                  Colors.grey,
-                                  BlendMode.srcIn,
-                                ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            'assets/Vector.svg',
+                            width: 26, // 20 * 1.3
+                            height: 26,
+                            colorFilter: p['timeBank'] > 0
+                                ? null
+                                : const ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.srcIn,
+                                  ),
+                          ),
                         ),
                       ),
                     ],
