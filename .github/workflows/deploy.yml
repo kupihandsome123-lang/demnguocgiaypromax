@@ -32,13 +32,32 @@ jobs:
       - name: 📦 Install Vercel CLI
         run: npm install -g vercel@latest
 
-      - name: 🚀 Deploy to Vercel
+      - name: ⚙️ Setup Vercel output structure
         run: |
-          vercel deploy ./build/web \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope=${{ secrets.VERCEL_ORG_ID }} \
-            --yes \
-            --prod
+          mkdir -p .vercel/output/static
+          cp -r build/web/. .vercel/output/static/
+          cat > .vercel/output/config.json << 'EOF'
+          {
+            "version": 3,
+            "routes": [
+              {
+                "src": "/assets/(.*)",
+                "headers": { "cache-control": "public, max-age=31536000, immutable" },
+                "dest": "/assets/$1"
+              },
+              {
+                "handle": "filesystem"
+              },
+              {
+                "src": "/(.*)",
+                "dest": "/index.html"
+              }
+            ]
+          }
+          EOF
+
+      - name: 🚀 Deploy to Vercel (prebuilt)
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
