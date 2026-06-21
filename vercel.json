@@ -1,0 +1,5 @@
+{
+  "outputDirectory": "build/web",
+  "buildCommand": "flutter build web --release --web-renderer html",
+  "framework": null
+}
